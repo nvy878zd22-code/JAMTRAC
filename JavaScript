@@ -1,0 +1,66 @@
+/* JAMTRAC Central Configuration */
+
+export const JAMTRAC_CONFIG = {
+  company: {
+    legalName: "JAMTRAC Inc.",
+    displayName: "JAMTRAC",
+    established: 2013,
+    motto: "We Are Doctors in Services",
+
+    values: [
+      "Integrity",
+      "Progress",
+      "Innovation"
+    ]
+  },
+
+  brand: {
+    wordmark: "/assets/brand/jamtrac-wordmark.jpeg",
+    emblem: "/assets/brand/jamtrac-emblem.jpeg",
+    seal: "/assets/brand/jamtrac-seal.jpeg"
+  },
+
+  contact: {
+    telephone: null,
+    email: null,
+    fax: null,
+    address: null
+  },
+
+  projectStages: [
+    "Before / Assessment",
+    "In Progress / Construction",
+    "Completed"
+  ],
+
+  workflow: [
+    "New Job / Intake",
+    "Assessment",
+    "Internal Scope / Cost",
+    "Customer Estimate",
+    "Approval",
+    "Work Order",
+    "Work",
+    "Invoice",
+    "Payment",
+    "Closeout"
+  ],
+
+  integrations: {
+    authentication: "pending",
+    database: "pending",
+    email: "pending",
+    fax: "pending",
+    google: "pending",
+    apple: "pending",
+    aiVoice: "pending",
+    vendorOrdering: "pending"
+  },
+
+  management: {
+    productionAuthenticationEnabled: false,
+    demoLocalStorageEnabled: true
+  }
+};
+
+export default JAMTRAC_CONFIG;
