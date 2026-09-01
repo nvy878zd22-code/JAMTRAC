@@ -1,6 +1,8 @@
 /*
-  JAMTRAC Expenses Module
-  Internal project cost and expense operations.
+  JAMTRAC Documents Module
+  Document records, classifications, and status stamps.
+
+  Actual server uploads are NOT enabled yet.
 */
 
 import {
@@ -11,68 +13,108 @@ import {
 } from "../data/data-service.js";
 
 
-export const EXPENSE_CATEGORIES = [
-  "Materials",
-  "Labor",
-  "Equipment",
-  "Transportation",
-  "Permits / Fees",
-  "Professional Services",
+export const DOCUMENT_TYPES = [
+  "Assessment",
+  "Estimate",
+  "Work Order",
+  "Invoice",
+  "Receipt",
+  "Photo",
+  "Contract",
   "Other"
 ];
 
 
-export async function getExpenses() {
-  return await getRecords("expenses");
+export const DOCUMENT_STAMPS = [
+  "RECEIVED",
+  "APPROVED",
+  "PAID",
+  "COMPLETED"
+];
+
+
+export async function getDocuments() {
+  return await getRecords("documents");
 }
 
 
-export async function createExpense(expenseData) {
-  const description = String(
-    expenseData.description || ""
+export async function createDocumentRecord(
+  documentData
+) {
+  const name = String(
+    documentData.name || ""
   ).trim();
 
-  const amount = Number(expenseData.amount);
-
-  if (!description) {
+  if (!name) {
     throw new Error(
-      "Expense description is required."
+      "Document name is required."
     );
   }
 
-  if (!Number.isFinite(amount) || amount < 0) {
-    throw new Error(
-      "Expense amount must be a valid positive amount."
-    );
-  }
-
-  const category =
-    EXPENSE_CATEGORIES.includes(expenseData.category)
-      ? expenseData.category
+  const type =
+    DOCUMENT_TYPES.includes(documentData.type)
+      ? documentData.type
       : "Other";
 
-  return await createRecord("expenses", {
-    description,
-    amount,
-    category,
+  return await createRecord("documents", {
+    name,
+    type,
 
     projectId:
-      expenseData.projectId || null,
+      documentData.projectId || null,
 
-    receiptReference:
-      expenseData.receiptReference || null,
+    fileReference:
+      documentData.fileReference || null,
 
-    expenseDate:
-      expenseData.expenseDate || null,
+    stamp: null,
 
-    status:
-      expenseData.status || "recorded"
+    uploadStatus:
+      "local-record-only",
+
+    notes: String(
+      documentData.notes || ""
+    ).trim()
   });
 }
 
 
-export async function updateExpense(
-  expenseId,
+export async function applyDocumentStamp(
+  documentId,
+  stamp
+) {
+  if (!DOCUMENT_STAMPS.includes(stamp)) {
+    throw new Error(
+      "Invalid JAMTRAC document stamp."
+    );
+  }
+
+  return await updateRecord(
+    "documents",
+    documentId,
+    {
+      stamp,
+      stampedAt: new Date().toISOString()
+    }
+  );
+}
+
+
+export async function clearDocumentStamp(
+  documentId
+) {
+  return await updateRecord(
+    "documents",
+    documentId,
+    {
+      stamp: null,
+      stampedAt: null
+    }
+  );
+}
+
+
+export async function updateDocument(
+  documentId,
   updates
 ) {
   const safeUpdates = {
@@ -83,74 +125,64 @@ export async function updateExpense(
   delete safeUpdates.createdAt;
 
   if (
-    safeUpdates.category &&
-    !EXPENSE_CATEGORIES.includes(
-      safeUpdates.category
-    )
+    safeUpdates.type &&
+    !DOCUMENT_TYPES.includes(safeUpdates.type)
   ) {
-    safeUpdates.category = "Other";
+    safeUpdates.type = "Other";
   }
 
-  if (safeUpdates.amount !== undefined) {
-    const amount = Number(safeUpdates.amount);
-
-    if (!Number.isFinite(amount) || amount < 0) {
-      throw new Error(
-        "Expense amount must be valid."
-      );
-    }
-
-    safeUpdates.amount = amount;
+  if (
+    safeUpdates.stamp &&
+    !DOCUMENT_STAMPS.includes(safeUpdates.stamp)
+  ) {
+    delete safeUpdates.stamp;
   }
 
   return await updateRecord(
-    "expenses",
-    expenseId,
+    "documents",
+    documentId,
     safeUpdates
   );
 }
 
 
-export async function removeExpense(expenseId) {
+export async function removeDocument(
+  documentId
+) {
   return await deleteRecord(
-    "expenses",
-    expenseId
+    "documents",
+    documentId
   );
 }
 
 
-export async function getProjectExpenses(
+export async function getProjectDocuments(
   projectId
 ) {
-  const expenses = await getExpenses();
+  const documents =
+    await getDocuments();
 
-  return expenses.filter(
-    (expense) =>
-      expense.projectId === projectId
+  return documents.filter(
+    (document) =>
+      document.projectId === projectId
   );
 }
 
 
-export async function getProjectExpenseTotal(
-  projectId
-) {
-  const expenses =
-    await getProjectExpenses(projectId);
+export function describeLocalFile(file) {
+  if (!file) {
+    return null;
+  }
 
-  return expenses.reduce(
-    (total, expense) =>
-      total + Number(expense.amount || 0),
-    0
-  );
-}
+  return {
+    name: file.name,
+    type: file.type || "unknown",
+    size: file.size,
+    lastModified: file.lastModified,
 
+    uploaded: false,
 
-export async function getTotalExpenses() {
-  const expenses = await getExpenses();
-
-  return expenses.reduce(
-    (total, expense) =>
-      total + Number(expense.amount || 0),
-    0
-  );
+    message:
+      "Selected locally. This file has not been uploaded."
+  };
 }
