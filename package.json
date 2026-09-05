@@ -1,0 +1,17 @@
+{
+  "name": "jamtrac",
+  "version": "1.0.0",
+  "description": "Official website of JAMTRAC Inc. - We Are Doctors in Services",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/site.test.mjs"
+  },
+  "keywords": [
+    "jamtrac",
+    "construction",
+    "remodeling",
+    "property-services"
+  ],
+  "license": "UNLICENSED",
+  "private": true
+}
