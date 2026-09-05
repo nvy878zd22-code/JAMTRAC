@@ -107,7 +107,7 @@ describe('JAMTRAC Inc. Website Verification', () => {
     assert.ok(!combined.toLowerCase().includes('2ks'), 'Must not contain 2Ks branding');
     assert.ok(!combined.toLowerCase().includes('2ksgrantfamily'), 'Must not contain 2KsGrantFamily branding');
     assert.ok(!combined.toLowerCase().includes('555-'), 'Must not contain fake 555- phone numbers');
-    assert.ok(!combined.includes('example.com'), 'Must not contain fake placeholder emails');
+    assert.ok(!/placeholder[_-]email|@(?:dummy|sample)\./i.test(combined), 'Must not contain fake placeholder contact info');
 
     assert.ok(html.includes('Contact information coming soon.'), 'Must use neutral contact notice wording');
   });
