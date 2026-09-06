@@ -12,4 +12,3 @@ The site uses only HTML5, CSS3, vanilla JavaScript, and static assets. All deplo
 - Build output directory: `public`
 
 Deploy the repository directly with Cloudflare Pages. No compilation step is required.
-
