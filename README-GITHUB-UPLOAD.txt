@@ -1,34 +1,9 @@
-JAMTRAC GitHub upload package
+JAMTRAC WEBSITE — DEVELOPMENT PREVIEW ONLY
 
-This folder contains the current JAMTRAC website files ready for GitHub.
+Production deployment is not authorized. Do not merge these changes into main, connect the preview to jamtracproperties.us, or publish them without explicit owner approval.
 
-Upload these files into the root of the GitHub repository:
+This is a static HTML, CSS and JavaScript site. To preview it locally from the repository root, run:
 
-- index.html
-- about.html
-- services.html
-- photos.html
-- contact.html
-- 404.html
-- CNAME
-- robots.txt
-- _headers
-- assets/
+    python3 -m http.server 8000
 
-If you are using Cloudflare Pages connected to GitHub:
-
-1. Put all files from this folder in the repository.
-2. In Cloudflare Pages, set the build command to blank.
-3. Set the output directory to /.
-4. Connect the domain jamtracproperties.us in Cloudflare Pages.
-
-If you are using GitHub Pages:
-
-1. Put all files from this folder in the repository root.
-2. In GitHub, go to Settings > Pages.
-3. Select Deploy from a branch.
-4. Choose main and root.
-5. The CNAME file is already set to jamtracproperties.us.
-
-Important: connecting the domain still has to be done in the hosting account.
-The website files are ready, but DNS/hosting activation is separate.
+Then open http://localhost:8000 in a browser. The project brief tool creates a local draft and does not submit inquiries. The JAMTRAC Screening Office is not integrated.
