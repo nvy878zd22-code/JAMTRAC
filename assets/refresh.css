@@ -1,0 +1,12 @@
+.wordmark{display:flex;align-items:center;gap:9px;width:195px;text-decoration:none}
+.wordmark img{width:54px;height:54px;object-fit:contain}
+.wordmark span{font:600 22px/1 Georgia,serif;letter-spacing:.03em}
+.service-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+.service-card{padding-right:14px;padding-left:14px}
+.service-card:first-child{padding-left:0}
+.service-card h3{font-size:19px}
+.ticker .wrap{font-size:10px;letter-spacing:.1em}
+.mascot-note{display:flex;align-items:center;gap:10px;font-size:14px}
+.mascot-note span{font-size:25px}
+@media(max-width:1000px){.service-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.wordmark{width:155px}.wordmark img{width:46px;height:50px}.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
