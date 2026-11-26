@@ -87,8 +87,9 @@
       .hero>img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block}
       .hero .shade{position:absolute;inset:0;background:linear-gradient(100deg,rgba(6,26,13,.74) 28%,rgba(6,26,13,.42) 58%,rgba(6,26,13,.08) 100%)}
       @media (max-width:640px){
-        .hero{background-position:center 32%}
-        .hero .shade{background:linear-gradient(180deg,rgba(6,26,13,.62) 0%,rgba(6,26,13,.38) 52%,rgba(6,26,13,.14) 100%)}
+        .hero{background-position:80% 38%}
+        .hero>img.bg{object-position:80% 38%}
+        .hero .shade{background:linear-gradient(180deg,rgba(6,26,13,.44) 0%,rgba(6,26,13,.24) 52%,rgba(6,26,13,.06) 100%)}
       }
       .hero .wrap{position:relative;padding:84px 20px 76px}
       .hero h1{font-size:clamp(2.3rem,5.4vw,3.9rem);font-weight:900;max-width:13.5em}
