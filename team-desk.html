@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#143d30"><title>Team Desk | JAMTRAC</title><meta name="description" content="JAMTRAC Team Desk. Start your shift on The Service Floor: find your station, enter your passcode, work your call board."><link rel="icon" href="assets/bird.jpeg"><link rel="stylesheet" href="assets/style.css"><script src="assets/site.js" defer></script><style>body{font-family:Helvetica,Arial,sans-serif;color:#111}.wrap{max-width:960px;margin:0 auto;padding:0 20px}.floor{border:1px solid #ccc;border-radius:10px;padding:20px;margin:20px 0}.floor label{display:block;font-weight:bold;margin:12px 0 4px}.floor input[type=text],.floor input[type=password]{width:100%;max-width:340px;padding:11px;font-size:16px;border:1px solid #888;border-radius:6px}.floor button{background:#143d30;color:#fff;border:0;padding:12px 20px;font-size:16px;border-radius:6px;cursor:pointer;margin-top:14px}.floor button.secondary{background:#fff;color:#143d30;border:1px solid #143d30}.floor button.zone{background:#f2f2f2;color:#111;border:1px solid #ccc;padding:10px 12px;margin:6px 6px 0 0;font-size:14px}.floor-error{color:#8a0000;font-weight:bold}.floor-note{background:#f2f2f2;padding:14px;border-radius:8px;margin:16px 0}.floor-warning{background:#fff3cd;padding:14px;border-radius:8px;margin:16px 0;border:1px solid #c9a227}.badge{display:inline-block;background:#143d30;color:#fff;padding:8px 14px;border-radius:999px;font-weight:bold}.card{border:1px solid #ccc;border-left:8px solid #143d30;border-radius:8px;padding:14px;margin:12px 0}.card.next{border-left-color:#c9a227}.card.doing{border-left-color:#1a7a4a}.card.done{border-left-color:#888}.pill{display:inline-block;font-size:13px;font-weight:bold;padding:3px 10px;border-radius:999px;background:#eee}.call-title{font-size:18px;margin:6px 0}</style></head><body><a class="skip" href="#main">Skip to content</a><header><div class="wrap header-row"><a class="wordmark" href="index.html" aria-label="JAMTRAC home"><img src="assets/jamtrac-wordmark.jpg" width="900" height="700" alt="JAMTRAC"></a><button class="menu-button" hidden aria-controls="navigation" aria-expanded="false">Menu <span aria-hidden="true">☰</span></button><nav id="navigation" aria-label="Main navigation"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="photos.html">Gallery</a><a href="team-desk.html" aria-current="page">Team Desk</a><a href="contact.html">Your project</a></nav></div></header><main id="main"><section class="wrap"><p class="eyebrow">JAMTRAC / TEAM DESK</p><h1>Start your shift on The Service Floor</h1><p class="lead">We are doctors in services, so think of this floor the way a clinic thinks of its day: calls come in, stations take them, and the board shows what is next. Find your station, enter your passcode, and work your call board. No new account, no Google sign-in, no Ziggy sign-in, and no extra cost.</p><div class="floor-warning"><strong>Why the old desk-plus-two-digits key is retired.</strong> A station code is public, there are only 50 stations, and a two-digit number has only 100 options. That is 50 times 100, or 5,000 guesses in total, and anyone could try them one desk at a time. That is not true security. The old example P03387 is retired and must not be used as a passcode.</div><div class="floor-note"><strong>What a real passcode is here.</strong> Your station code is your public station name, like a username. It is not secret. Your passcode is secret, separate, and at least 8 characters long, with letters and numbers. H01 sets it when you are seated, and it is never written into this page, into a repo, or into Drive. Your passcode stays in your pocket: this page does not store it. It sends it only to the Worker check on this site, at /api/station-login, when that Worker is live, and to nowhere else.</div><div class="floor-warning"><strong>True security note, read this before real work goes on the board.</strong> The Worker check is built in src/index.js: the page sends station plus passcode to /api/station-login, the Worker checks a salted hash kept as a secret, never the passcode itself, locks a station for 15 minutes after 5 failed tries, and returns an 8-hour session. If that Worker is not live yet, the page falls back to a sample board only, with a warning, and does not claim verification. Real jobs must not go on the board until that Worker check is live and tested.</div><div class="floor" id="step1"><h2>1. Find your station</h2><p>Tap a zone, or type your station code. A station is your desk code, from P001 to P050.</p><div id="zones"><button type="button" class="zone" data-zone="D01">D01 Leadership</button><button type="button" class="zone" data-zone="D03">D03 Finance</button><button type="button" class="zone" data-zone="D06">D06 Construction</button><button type="button" class="zone" data-zone="D07">D07 Water Services</button><button type="button" class="zone" data-zone="D09">D09 Field</button></div><p id="zone-hint" class="floor-note">Try D07 Water Services, then station P033, Dispatch, to see the sample board.</p><label for="station-code">Station code</label><input type="text" id="station-code" inputmode="text" autocomplete="off" placeholder="For example, P033"><label for="employee-id">Your employee ID for the record (optional for sample, required for real records)</label><input type="text" id="employee-id" inputmode="text" autocomplete="off" placeholder="For example, your 04_PEOPLE key"><p><label><input type="checkbox" id="remember-station"> This phone knows my station</label></p><p class="floor-note" id="remembered-note" hidden></p><p class="floor-error" id="step1-error" hidden></p><button type="button" id="step1-button">Take me to my station</button></div><div class="floor" id="step2" hidden><h2>2. Your passcode</h2><p>Station: <span class="badge" id="step2-station"></span></p><p>Enter your passcode. At least 8 characters, with letters and numbers. It must not be your station code, and it must not be your station code plus two digits. If you do not have a passcode yet, ask H01. H01 sets it, and H01 can change it or turn it off when you leave.</p><label for="passcode">Passcode</label><input type="password" id="passcode" autocomplete="off" placeholder="Your passcode, at least 8 characters"><p><button type="button" class="secondary" id="show-passcode">Show passcode</button></p><p class="floor-error" id="step2-error" hidden></p><p id="tries-note" class="floor-note" hidden></p><button type="button" id="step2-button">Open my board</button> <button type="button" class="secondary" id="step2-back">Back to the floor</button></div><div class="floor" id="board" hidden><h2 id="board-greeting">The Service Floor</h2><p><span class="badge" id="board-station"></span> <span id="board-role"></span></p><p class="floor-warning" id="board-warning">Sample board only.</p><h3>Next up</h3><div id="board-next"></div><h3>On the floor now</h3><div id="board-doing"></div><h3>Done</h3><div id="board-done"></div><h3>Station folder and records</h3><p>Your station folder and job records stay in Drive and in the company workbook under their existing sharing and screening rules. This board lists calls only. It does not replace a workflow, an approval, or a screened record.</p><button type="button" class="secondary" id="end-shift-button">End my shift</button> <button type="button" class="secondary" id="forget-button">Forget this phone</button></div><div class="floor-note"><strong>Changing the work, without rebuilding the floor.</strong> Calls for each station are listed in one place in this page, marked EDIT HERE, each with a status: next, doing, or done. To move a call, H01 changes that one word only. <strong>Example only.</strong> The P033 calls below are a sample board, not real jobs. No real job, client, or folder link is published on this page.</div></section></main><footer><div class="wrap footer-top"><div><a class="footer-brand" href="index.html">JAMTRAC</a><p>We Are Doctors in Services</p></div><div class="footer-links"><a href="about.html">About</a><a href="services.html">Services</a><a href="photos.html">Gallery</a><a href="team-desk.html">Team Desk</a><a href="contact.html">Your project</a></div></div><div class="wrap footer-bottom"><span>© 2026 JAMTRAC</span><span>Integrity · Progress · Innovation</span><a href="#main">Back to top ↑</a></div></footer><script>
+'use strict';
+// EDIT HERE: change the work by editing this list only. Change a call's status word
+// (next, doing, done) to move it on the board. No other page has to be rebuilt.
+// Stations are desk codes from the Seat Registry. Calls marked sample are a layout example only.
+// No real passcode is in this page. The passcode check here is format only, for preview.
+// Real verification must be server-side, as described in docs/team-desk-passcode-worker.md.
+var STATIONS = {
+  'P001': {title: 'Chief Executive Officer', department: 'D01 Leadership', short: 'Leadership'},
+  'P011': {title: 'Chief Financial Officer', department: 'D03 Finance', short: 'Finance'},
+  'P026': {title: 'Operations Construction Manager', department: 'D06 Construction', short: 'Construction'},
+  'P031': {title: 'Water Services Manager', department: 'D07 Water Services', short: 'Water'},
+  'P033': {title: 'Water Service Dispatcher', department: 'D07 Water Services', short: 'Dispatch'},
+  'P041': {title: 'Working Foreman', department: 'D09 Field', short: 'Field'}
+};
+var ZONE_STATIONS = {'D01': 'P001', 'D03': 'P011', 'D06': 'P026', 'D07': 'P033', 'D09': 'P041'};
+var CALLS = {
+  'P033': [
+    {text: 'Sample call: check today\'s water service calls in your station folder.', status: 'next'},
+    {text: 'Sample call: confirm the dispatch schedule with P031.', status: 'doing'},
+    {text: 'Sample call: log completed dispatches for screening, as your workflow directs.', status: 'done'}
+  ],
+  'P001': [{text: 'Sample call: review stations awaiting H01 decisions.', status: 'next'}]
+};
+function normalise(value) { return String(value || '').trim().toUpperCase().replace(/[\s-]/g, ''); }
+function isStation(value) { var m = /^P(\d{3})$/.exec(value); return !!m && parseInt(m[1], 10) >= 1 && parseInt(m[1], 10) <= 50; }
+function isPasscodeFormat(value, station) {
+  if (!value || value.length < 8) return false;
+  if (value.toUpperCase() === station) return false;
+  if (/[A-Za-z]/.test(value) === false) return false;
+  if (/[0-9]/.test(value) === false) return false;
+  return true;
+}
+function show(el, yes) { el.hidden = !yes; }
+var step1 = document.getElementById('step1'), step2 = document.getElementById('step2'), board = document.getElementById('board');
+var stationInput = document.getElementById('station-code'), employeeInput = document.getElementById('employee-id'), rememberBox = document.getElementById('remember-station'), rememberedNote = document.getElementById('remembered-note');
+var step1Error = document.getElementById('step1-error'), step2Error = document.getElementById('step2-error'), passInput = document.getElementById('passcode');
+var triesNote = document.getElementById('tries-note');
+var currentStation = '', failedTries = 0;
+document.querySelectorAll('[data-zone]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var code = ZONE_STATIONS[btn.getAttribute('data-zone')];
+    stationInput.value = code;
+    document.getElementById('zone-hint').textContent = 'Zone picked: ' + btn.textContent + '. Example station filled in: ' + code + '. Type your own station if it is different, then continue.';
+  });
+});
+try {
+  var remembered = localStorage.getItem('jamtracStationCode');
+  if (remembered && isStation(remembered)) {
+    stationInput.value = remembered; rememberBox.checked = true;
+    rememberedNote.textContent = 'This phone knows your station: ' + remembered + '. It is pinned first. Your passcode is still asked for every shift.';
+    show(rememberedNote, true);
+  }
+} catch (e) {}
+document.getElementById('step1-button').addEventListener('click', function() {
+  var code = normalise(stationInput.value);
+  if (!isStation(code)) { step1Error.textContent = 'Enter a station code from P001 to P050, for example P033.'; show(step1Error, true); return; }
+  show(step1Error, false); currentStation = code; failedTries = 0; show(triesNote, false);
+  try { if (rememberBox.checked) { localStorage.setItem('jamtracStationCode', code); } else { localStorage.removeItem('jamtracStationCode'); } } catch (e) {}
+  document.getElementById('step2-station').textContent = code;
+  show(step1, false); show(step2, true); show(board, false); passInput.focus();
+});
+document.getElementById('step2-back').addEventListener('click', function() { show(step2, false); show(step1, true); });
+document.getElementById('show-passcode').addEventListener('click', function() {
+  passInput.type = passInput.type === 'password' ? 'text' : 'password';
+  this.textContent = passInput.type === 'password' ? 'Show passcode' : 'Hide passcode';
+});
+function renderCalls(status, elId) {
+  var el = document.getElementById(elId); el.innerHTML = '';
+  var items = (CALLS[currentStation] || []).filter(function(c) { return c.status === status; });
+  if (!items.length) { el.innerHTML = '<p>No calls here yet.</p>'; return; }
+  items.forEach(function(c) {
+    var div = document.createElement('div'); div.className = 'card ' + status;
+    var pill = document.createElement('span'); pill.className = 'pill'; pill.textContent = status === 'next' ? 'Next up' : status === 'doing' ? 'On the floor' : 'Done';
+    var title = document.createElement('div'); title.className = 'call-title'; title.textContent = c.text;
+    div.appendChild(pill); div.appendChild(title); el.appendChild(div);
+  });
+}
+function openBoard(serverVerified) {
+  show(step2Error, false); show(triesNote, false);
+  var info = STATIONS[currentStation] || {title: 'Station ' + currentStation, department: '', short: currentStation};
+  var hour = new Date().getHours();
+  var greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('board-greeting').textContent = greet + ', ' + info.short + ' — welcome to The Service Floor';
+  document.getElementById('board-station').textContent = currentStation;
+  document.getElementById('board-role').textContent = info.title + (info.department ? ' (' + info.department + ')' : '') + '.';
+  document.getElementById('board-warning').textContent = serverVerified ? 'Server-verified session. Sample calls only. Real calls are served only with a valid, attributed session.' : 'Worker unavailable — no real desk data is shown here.';
+  if (!serverVerified) {
+    document.getElementById('board-next').innerHTML = '<div class="card next"><div class="call-title">Worker unavailable — real board is not available.</div><p>No calls are shown here, because sample calls could be mistaken for real work. Try again when the Worker check is live.</p></div>';
+    document.getElementById('board-doing').innerHTML = '<p>Not available while Worker is unavailable.</p>';
+    document.getElementById('board-done').innerHTML = '<p>Not available while Worker is unavailable.</p>';
+  } else {
+    if (!CALLS[currentStation]) { CALLS[currentStation] = [{text: 'No calls posted yet for this station. H01 posts calls by editing the work list on this page.', status: 'next'}]; }
+    renderCalls('next', 'board-next'); renderCalls('doing', 'board-doing'); renderCalls('done', 'board-done');
+  }
+  passInput.value = '';
+  show(step2, false); show(board, true);
+}
+document.getElementById('step2-button').addEventListener('click', async function() {
+  var pass = passInput.value || '';
+  if (failedTries >= 5) { step2Error.textContent = 'Too many tries for this station in this browser. Wait and ask H01 if you need a passcode reset.'; show(step2Error, true); return; }
+  if (!isPasscodeFormat(pass, currentStation)) {
+    failedTries += 1;
+    step2Error.textContent = 'Passcode must be at least 8 characters, with letters and numbers, and must not be your station code or your station code plus two digits. Tries left in this browser: ' + (5 - failedTries) + '.';
+    show(step2Error, true);
+    triesNote.textContent = 'Preview only: this checks format, not whether your passcode is correct. Real verification must be server-side.';
+    show(triesNote, true);
+    return;
+  }
+  try {
+    var res = await fetch('/api/station-login', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({station: currentStation, employee: employeeInput.value, passcode: pass})});
+    if (res.status === 404) {
+      triesNote.textContent = 'Worker check is not live on this site yet, so this is a sample board only. Format was checked, passcode was not verified.';
+      show(triesNote, true);
+      openBoard(false);
+      return;
+    }
+    var data = await res.json().catch(function() { return {}; });
+    if (res.ok && data.ok) { openBoard(true); return; }
+    step2Error.textContent = data.error || 'Invalid station or passcode.';
+    if (data.triesLeft !== undefined) step2Error.textContent += ' Tries left: ' + data.triesLeft + '.';
+    show(step2Error, true);
+    return;
+  } catch (e) {
+    triesNote.textContent = 'Worker check could not be reached, so this is a sample board only. Format was checked, passcode was not verified.';
+    show(triesNote, true);
+    openBoard(false);
+    return;
+  }
+});
+document.getElementById('end-shift-button').addEventListener('click', function() { try { fetch('/api/logout', {method: 'POST'}).catch(function() {}); } catch (e) {} show(board, false); show(step1, true); });
+document.getElementById('forget-button').addEventListener('click', function() {
+  try { localStorage.removeItem('jamtracStationCode'); localStorage.removeItem('jamtracDeskCode'); } catch (e) {}
+  rememberBox.checked = false; stationInput.value = ''; show(rememberedNote, false); show(board, false); show(step1, true);
+});
+</script></body></html>
