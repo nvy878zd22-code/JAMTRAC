@@ -732,7 +732,7 @@
           <div class="wrap">
             <p class="kicker" style="color:var(--gold-soft)">Sign In · Team Desk &amp; Client Access</p>
             <h1>Sign in to JAMTRAC.</h1>
-            <p>One place for the team to pick up work and for clients to stay close to their job. Team Desk sign-in will open here once the Team Desk setup is finished. Clients: request access below and the office will set you up.</p>
+            <p>One place for the team to pick up work and for clients to stay close to their job. Team Desk sign-in is open — continue to the Service Floor to sign in. Clients: request access below and the office will set you up.</p>
           </div>
         </section>
 
@@ -752,9 +752,9 @@
                   <div class="field"><label for="t-email">Work email</label><input id="t-email" type="email" autocomplete="email" placeholder="you@jamtracproperties.us" required /></div>
                   <div class="field"><label for="t-pass">Passcode</label><input id="t-pass" type="password" autocomplete="current-password" placeholder="Your Team Desk passcode" required /></div>
                   <button class="btn btn-green" type="submit" style="width:100%;justify-content:center">Continue to secure Team Desk →</button>
-                  <p class="form-note" style="text-align:center">Team Desk sign-in will open here once the Team Desk setup is finished — where assignments, screening and the work loop will be handled.</p>
+                  <p class="form-note" style="text-align:center">Team Desk sign-in is open — continue to the Service Floor, where assignments, screening and the work loop are handled.</p>
                 </form>
-                <div class="sent-box" id="team-box"><strong>Team Desk sign-in will open here once the Team Desk setup is finished.</strong><br />Keep your passcode private — the office will never ask you to share it in chat or email.</div>
+                <div class="sent-box" id="team-box"><strong>Team Desk sign-in is open — continue to the Service Floor.</strong><br />Keep your passcode private — the office will never ask you to share it in chat or email.</div>
                 <div class="auth-note"><strong>First time or locked out?</strong> Contact the Screening Office at <a href="mailto:Info@jamtracproperties.us">Info@jamtracproperties.us</a> or call <a href="tel:+19174756603">(917) 475-6603</a>. Access is set up by the office — there’s no public self-sign-up for the Team Desk.</div>
               </div>
 
@@ -953,8 +953,7 @@
       var teamForm = document.getElementById('team-form');
       if (teamForm) teamForm.addEventListener('submit', function(e){
         e.preventDefault();
-        document.getElementById('team-box').classList.add('show');
-        window.open('https://jamtracproperties.us', '_blank', 'noopener');
+        window.location.href = '/team-desk.html';
       });
 
       var clientForm = document.getElementById('client-form');
